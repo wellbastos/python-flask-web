@@ -1,0 +1,36 @@
+- hosts: localhost
+
+  tasks:
+    - name: ansible create directory for build
+      file:
+        path: /app
+        state: directory
+
+    - name: clonning repository
+      git:
+        repo: https://github.com/wellbastos/python-flask-web.git
+        dest: /app
+        #version:
+
+    - name: build docker image
+      docker_image:
+          name: python-flask
+          path: /app
+          state: build
+          force: yes        
+
+
+
+        #    - name: pull imagem do docker
+        #docker_image:
+        #name: wellbastos/python-flask-web:latest
+        #        source: pull
+
+    - name: run docker image
+      docker_container:
+        name: python-flask-web
+        image: python-flask:latest
+        #image: wellbastos/python-flask-web:latest
+        state: started
+        ports: 
+         - "5000:5000"
