@@ -7,5 +7,11 @@ pipeline {
       }
     }
 
+    stage('build docker') {
+      steps {
+        build(quietPeriod: 10, job: 'build docker', propagate: true, wait: true)
+      }
+    }
+
   }
 }
